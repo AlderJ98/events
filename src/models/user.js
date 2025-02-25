@@ -1,13 +1,14 @@
 import { DataTypes } from "sequelize"
 import sequelize from "../config/database.js"
+import Role from "./role.js"
 
-const user = sequelize.define('user', {
+const User = sequelize.define('user', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    firs_name: {
+    first_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -30,7 +31,21 @@ const user = sequelize.define('user', {
     updated_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    role_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: Role,
+            key: 'id'
+        }
     }
-})
+}, {
+    timestamps: false
+}
+)
 
-export default user
+User.belongsTo(Role, { foreignKey: 'role_id' });
+Role.hasMany(User, { foreignKey: 'role_id' });
+
+export default User

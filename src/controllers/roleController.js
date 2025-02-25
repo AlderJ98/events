@@ -52,7 +52,12 @@ const updateRole = async (req, res) => {
     const { name, description } = req.body
 
     try {
-        const role = await Role.findOne({ where: id})
+        const role = await Role.findOne({
+            where: {
+                id: id
+            }
+        })
+
         if (!role) {
             return res.status(404).json({
                 success: false,
@@ -80,7 +85,12 @@ const deleteRole = async (req, res) => {
     const { id } = req.params
 
     try {
-        const role = await Role.findOne({ where: id })
+        const role = await Role.findOne({
+            where: {
+                id: id
+            }
+        })
+
         if (!role) {
             return res.status(404).json({
                 success: false,
@@ -102,9 +112,4 @@ const deleteRole = async (req, res) => {
     }
 }
 
-export default {
-    getRoles,
-    createRole,
-    updateRole,
-    deleteRole
-}
+export { getRoles, createRole, updateRole, deleteRole }
